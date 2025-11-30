@@ -76,7 +76,7 @@ return {
 
         -- Fuzzy find all the symbols in your current document.
         --  Symbols are things like variables, functions, types, etc.
-        map('<leader>cs', require('telescope.builtin').lsp_document_symbols, '[C]ode [S]ymbols')
+        map('gs', require('telescope.builtin').lsp_document_symbols, '[C]ode [S]ymbols')
 
         -- Fuzzy find all the symbols in your current workspace.
         --  Similar to document symbols, except searches over your entire project.
@@ -88,7 +88,7 @@ return {
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
-        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+        map('g.', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
@@ -152,7 +152,7 @@ return {
     --  - settings (table): Override the default settings passed when initializing the server.
     --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
     local servers = {
-      hls = {},
+      --hls = {},
       clangd = {},
       -- gopls = {},
       -- pyright = {},

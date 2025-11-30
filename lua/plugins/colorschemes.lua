@@ -10,7 +10,7 @@ return {
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      --vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight-night'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
@@ -26,7 +26,25 @@ return {
     name = 'catppuccin',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'catppuccin-frappe'
+      -- vim.cmd.colorscheme 'catppuccin-frappe'
+    end,
+  },
+  {
+    'navarasu/onedark.nvim',
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('onedark').setup {
+        style = 'darker',
+      }
+      -- Enable theme
+      --require('onedark').load()
+    end,
+  },
+  {
+    'nordtheme/vim',
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'nord'
     end,
   },
 }

@@ -15,6 +15,11 @@ vim.opt.mouse = 'a'
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
+-- Needed to display colorschemes correctly when using tmux
+vim.opt.termguicolors = true
+
+vim.opt.background = 'dark'
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.

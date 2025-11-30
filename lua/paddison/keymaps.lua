@@ -5,7 +5,7 @@
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
--- Diagnostic keymaps
+-- [[Diagnostic keymaps]]
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -24,3 +24,8 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- [[ Helper Keymaps ]]
+vim.keymap.set('n', '<leader>e', '<cmd>Explore<CR>', { desc = 'Open file [E]xplorer' })
+vim.keymap.set('n', '<leader>wl', 'guiwe', { desc = 'Change word do [l]ower case' })
+vim.keymap.set('n', '<leader>wu', 'gUiwe', { desc = 'Change word do [u]pper case' })
