@@ -180,6 +180,27 @@ return {
           },
         },
       },
+      vim.lsp.config('rust_analyzer', {
+        settings = {
+          ['rust-analyzer'] = {
+            check = {
+              command = 'clippy',
+              extraArgs = { '--no-deps' },
+            },
+            cargo = {
+              features = 'all',
+            },
+            files = {
+              excludeDirs = {
+                '.direnv',
+                '.git',
+                '.jj',
+                'target',
+              },
+            },
+          },
+        },
+      }),
     }
 
     -- Ensure the servers and tools above are installed

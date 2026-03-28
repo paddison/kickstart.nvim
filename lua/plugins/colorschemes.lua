@@ -47,13 +47,6 @@ return {
     end,
   },
   {
-    'nordtheme/vim',
-    priority = 1000,
-    config = function()
-      --vim.cmd.colorscheme 'nord'
-    end,
-  },
-  {
     'shaunsingh/nord.nvim',
     priority = 1000,
     config = function()
@@ -61,6 +54,13 @@ return {
       vim.g.nord_italic = false
       vim.g.nord_bold = false
       vim.cmd.colorscheme 'nord'
+    end,
+  },
+  {
+    'https://github.com/Shatur/neovim-ayu',
+    priority = 1000,
+    config = function()
+      --vim.cmd.colorscheme 'ayu-mirage'
     end,
   },
 }
