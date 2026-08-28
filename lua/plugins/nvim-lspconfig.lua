@@ -63,7 +63,7 @@ return {
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
         -- Find references for the word under your cursor.
-        map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+        map('gA', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
         -- Jump to the implementation of the word under your cursor.
         --  Useful when your language has ways of declaring types without an actual implementation.
@@ -84,7 +84,7 @@ return {
 
         -- Rename the variable under your cursor.
         --  Most Language Servers support renaming across files, etc.
-        map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+        map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
 
         -- Execute a code action, usually your cursor needs to be on top of an error
         -- or a suggestion from your LSP for this to activate.
@@ -93,6 +93,7 @@ return {
         -- WARN: This is not Goto Definition, this is Goto Declaration.
         --  For example, in C this would take you to the header.
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+        vim.diagnostic.config { virtual_text = true }
 
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
@@ -100,7 +101,7 @@ return {
         --
         -- When you move your cursor, the highlights will be cleared (the second autocommand).
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
           local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
             buffer = event.buf,
@@ -127,7 +128,7 @@ return {
         -- code, if the language server you are using supports them
         --
         -- This may be unwanted, since they displace some of your code
-        if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
           map('<leader>th', function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
@@ -180,15 +181,31 @@ return {
           },
         },
       },
+      copilot = {},
+      vim.lsp.config('cfu', {
+        cmd = { 'cfu', 'lsp', '--stdio' },
+        filetypes = { 'json5' },
+      }),
       vim.lsp.config('rust_analyzer', {
         settings = {
           ['rust-analyzer'] = {
-            check = {
-              command = 'clippy',
-              extraArgs = { '--no-deps' },
-            },
+            --check = {
+            --command = 'clippy',
+            --extraArgs = { '--no-deps' },
+            --},
+            checkOnSave = false,
             cargo = {
               features = 'all',
+              -- Analyze for whichever cross target the active devshell builds for,
+              -- so that #[cfg(target_os = ...)] modules are indexed:
+              -- drivers::cadence_gem is gated to redox/nto, and its QNX PAL
+              -- (pal::qnx_rpi5, incl. the interrupt service thread) to nto alone.
+              -- Every cross devshell exports CARGO_BUILD_TARGET -- see
+              -- nix/fenix_devshell.nix, nix/qnx_devshell.nix, nix/aarch64_devshell.nix
+              -- so `nix develop .#qnx` gives the QNX view and `.#fenix-x86-dev` the
+              -- Redox one. Outside a devshell both are nil and RA falls back to the
+              -- host target (which lights up the linux-only af_packet/xdp instead).
+              target = vim.env.CARGO_BUILD_TARGET or vim.env.REDOX_TARGET,
             },
             files = {
               excludeDirs = {
@@ -231,5 +248,6 @@ return {
         end,
       },
     }
+    vim.lsp.enable 'cfu'
   end,
 }
